@@ -31,16 +31,6 @@ df_bills = df[['text', 'summary', 'title']]
 pd.options.mode.chained_assignment = None #https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#evaluation-order-matters
 
 # s is input text
-def normalize_text(s, sep_token = " \n "):
-    s = re.sub(r'\s+',  ' ', s).strip()
-    s = re.sub(r". ,","",s)
-    # remove all instances of multiple spaces
-    s = s.replace("..",".")
-    s = s.replace(". .",".")
-    s = s.replace("\n", "")
-    s = s.strip()
-    
-    return s
 
 df_bills['text']= df_bills["text"].apply(lambda x : normalize_text(x))
 
