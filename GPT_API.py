@@ -1,13 +1,20 @@
 from openai import OpenAI
+from embedded import search_docs
 client = OpenAI()
 
-completion = client.chat.completions.create(
-  model="gpt-3.5-turbo",
-  messages=[
-    {"role": "system", "content": "You are a poetic assistant, skilled in explaining complex programming concepts with creative flair."},
-    {"role": "user", "content": "Compose a poem that explains the concept of recursion in programming."}
-  ]
-)
+def ask_GPT(prompt, quesiton):
+  completion = client.chat.completions.create(
+    model="gpt-3.5-turbo",
+    messages=[
+      {"role": "system", "content": prompt},
+      {"role": "user", "content": quesiton}
+    ]
+  )
+  return completion.choice[0].message
 
 
-print(completion.choices[0].message)
+qwestion = "Who is Harry Potter?"
+prompt = search_docs(qwestion)
+
+print(ask_GPT(prompt, qwestion))
+
