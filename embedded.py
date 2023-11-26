@@ -54,3 +54,18 @@ except Exception as e:
 
 df_bills.to_csv('final_embedded.csv', index=False)
 print(df_bills)
+
+def search_docs(df, user_query, top_n=3, to_print=True):
+    embedding = get_embedding(
+        user_query,
+        engine="text-embedding-ada-002" # engine should be set to the deployment name you chose when you deployed the text-embedding-ada-002 (Version 2) model
+    )
+    df["similarities"] = df.ada_v2.apply(lambda x: cosine_similarity(x, embedding))
+
+    res = (
+        df.sort_values("similarities", ascending=False)
+        .head(top_n)
+    )
+    if to_print:
+        print(res)
+    return res
